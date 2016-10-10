@@ -30,7 +30,7 @@ class Board
     index = LETTERS[letter]
     n = 5
     # binding.pry
-    while @rows[n][index].occupied? && n >= 0
+    while @rows[n][index].occupied? && n != 0
       n -= 1
     end
     @row_index = n
@@ -66,7 +66,7 @@ class Board
         if space.player.nil?
           spots << ' '
         elsif space.player != nil
-          spots << space.player
+          spots << space.player.token
         end
       end
       board_print << '|' + spots.join(' ') + '|' + "\n"

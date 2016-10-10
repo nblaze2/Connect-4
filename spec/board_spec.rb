@@ -15,6 +15,7 @@ describe Board do
       it "drops a token into the bottom most row" do
         board.drop_token('D', player)
         expect(board.rows.last[3].player.token).to eq('X')
+        expect(board.rows.last[3].player.token).to_not eq('O')
       end
     end
 

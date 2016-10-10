@@ -8,6 +8,11 @@ class GameTurn
     @col_index = col_index
   end
 
+  # def player_token(current_player)
+  #   current_player.token
+  # end
+
+
   # def add_turn(player, row_index, col_index)
   #   @last_turn = GameTurn.new(self, player, row_index, col_index)
   #   @last_turn.drop_token

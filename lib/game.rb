@@ -42,7 +42,7 @@ while board.empty_spaces? # && !board.winner?
   end
 
 
-  # board.add_turn(current_player, @row_index, letter_index)
+  board.drop_token(letter_index, current_player)
 
   puts board.print
 
