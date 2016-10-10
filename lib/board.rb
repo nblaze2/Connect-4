@@ -1,5 +1,9 @@
+require_relative 'board_space'
+require_relative 'game_turn'
+require 'pry'
+
 class Board
-  attr_reader :rows
+  attr_reader :rows, :row_index
 
   LETTERS = {
     'A' => 0,
@@ -12,22 +16,62 @@ class Board
   }
 
   def initialize
-    @rows = [
-      [nil, nil, nil, nil, nil, nil, nil],
-      [nil, nil, nil, nil, nil, nil, nil],
-      [nil, nil, nil, nil, nil, nil, nil],
-      [nil, nil, nil, nil, nil, nil, nil],
-      [nil, nil, nil, nil, nil, nil, nil],
-      [nil, nil, nil, nil, nil, nil, nil]
-    ]
+    @rows = []
+    6.times do
+      row = []
+      7.times do
+        row << BoardSpace.new
+      end
+      @rows << row
+    end
   end
 
-  def drop_token(letter, token)
+  def drop_token(letter, player)
     index = LETTERS[letter]
     n = 5
-    while @rows[n][index] != nil && n >= 0
+    # binding.pry
+    while @rows[n][index].occupied? && n >= 0
       n -= 1
     end
-    @rows[n][index] = token
+    @row_index = n
+    @rows[@row_index][index].player = @rows[n][index].player_token(player)
+  end
+
+  def wrong_letter?(letter)
+    !LETTERS.include?(letter)
+  end
+
+  def empty_spaces?
+    @rows.each do |row|
+      row.each do |space|
+        return true if !space.occupied?
+      end
+    end
+    return false
+  end
+#
+#   def winner?
+#     if @last_turn
+#       @last_turn.winner?
+#     else
+#       false
+#     end
+#   end
+#
+  def print
+    board_print = ""
+    @rows.each_with_index do |row, index|
+      spots = []
+      row.each do |space|
+        if space.player.nil?
+          spots << ' '
+        elsif space.player != nil
+          spots << space.player
+        end
+      end
+      board_print << '|' + spots.join(' ') + '|' + "\n"
+    end
+    board_print << ' A B C D E F G '
+    board_print
   end
 end
