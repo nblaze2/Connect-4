@@ -107,23 +107,17 @@ class Board
 
   def diagonal_up_right_win?
     r = 5
-    while r > 0
+    tally = 0
+    while r > 2
       c = 0
-      tally = 0
-      while c < 6
-        if @rows[r][c].player == @rows[r - 1][c + 1].player && @rows[r][c].player != nil && @rows[r - 1][c + 1] != nil
-          tally += 1
-          if tally == 3
-            return true
-          end
-        else
-          tally = 0
+      while c < 4
+        if @rows[r][c].player != nil && @rows[r][c].player == @rows[r - 1][c + 1].player && @rows[r][c].player == @rows[r - 2][c + 2].player && @rows[r][c].player == @rows[r - 3][c + 3].player
+          return true
         end
         c += 1
       end
       r -= 1
     end
-    puts "r #{r} c #{c} tally #{tally}"
     return false
   end
 
