@@ -60,7 +60,7 @@ class Board
   end
 
   def winner?
-    horizontal_win? || vertical_win? || diagonal_up_right_win?
+    horizontal_win? || vertical_win? || diagonal_up_right_win? || diagonal_down_right_win?
   end
 
   def horizontal_win?
@@ -122,7 +122,19 @@ class Board
   end
 
   def diagonal_down_right_win?
-
+    r = 0
+    tally = 0
+    while r < 3
+      c = 0
+      while c < 4
+        if @rows[r][c].player != nil && @rows[r][c].player == @rows[r + 1][c + 1].player && @rows[r][c].player == @rows[r + 2][c + 2].player && @rows[r][c].player == @rows[r + 3][c + 3].player
+          return true
+        end
+        c += 1
+      end
+      r += 1
+    end
+    return false
   end
 
   def print
