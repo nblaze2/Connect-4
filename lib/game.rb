@@ -20,6 +20,7 @@ while red_name == black_name
 end
 puts ""
 puts "Hello #{black_name}! Nice to meet you too."
+puts ""
 
 x_player = Player.new(red_name, 'X')
 o_player = Player.new(black_name, 'O')
@@ -29,6 +30,9 @@ board = Board.new
 players = [x_player, o_player].shuffle
 
 turn_index = 0
+
+puts board.print
+puts ""
 while board.empty_spaces?  && !board.winner?
   current_player = players[turn_index]
   puts "It is #{current_player.name}'s turn."
@@ -45,6 +49,7 @@ while board.empty_spaces?  && !board.winner?
   if board.drop_token?(letter_index, current_player)
     puts ""
     puts board.print
+    puts ""
 
     if board.winner?
       puts ""

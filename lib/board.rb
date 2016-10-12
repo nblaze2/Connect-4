@@ -150,6 +150,7 @@ class Board
       end
       board_print << '|' + spots.join(' ') + '|' + "\n"
     end
+    board_print << "---------------" + "\n"
     board_print << ' A B C D E F G '
     board_print
   end
