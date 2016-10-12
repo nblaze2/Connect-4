@@ -57,4 +57,28 @@ describe Board do
       end
     end
   end
+
+  describe "#horizontal_win?" do
+    context "when there are 4 in a row horizontally" do
+      it "returns victory = true" do
+        board.drop_token('A', player)
+        board.drop_token('B', player)
+        board.drop_token('C', player)
+        board.drop_token('D', player)
+        binding.pry
+        expect(board.horizontal_win?).to eq(true)
+      end
+    end
+
+    context "when there are not 4 in a row horizontally" do
+      it "returns victory = false" do
+        board.drop_token('A', player)
+        board.drop_token('B', player)
+        board.drop_token('C', player)
+        board.drop_token('E', player)
+        # binding.pry
+        expect(board.horizontal_win?).to eq(false)
+      end
+    end
+  end
 end

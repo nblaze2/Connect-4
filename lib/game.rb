@@ -29,22 +29,37 @@ board = Board.new
 players = [x_player, o_player].shuffle
 
 turn_index = 0
-while board.empty_spaces? # && !board.winner?
+while board.empty_spaces?  && !board.winner?
   current_player = players[turn_index]
   puts "It is #{current_player.name}'s turn."
 
   print "What column do you want to play? "
-  letter_index = gets.chomp
+  letter_index = gets.chomp.upcase
   while board.wrong_letter?(letter_index)
     puts ""
     print "I'm sorry that isn't a valid choice, please choose a valid column: "
-    letter_index = gets.chomp
+    letter_index = gets.chomp.upcase
   end
 
 
-  board.drop_token(letter_index, current_player)
+  if board.drop_token?(letter_index, current_player)
+    puts ""
+    puts board.print
 
-  puts board.print
+    if board.winner?
+      puts ""
+      puts "#{current_player.name}! You won!!! Good game."
+      break
+    end
 
-  turn_index = turn_index == 0 ? 1 : 0
+    turn_index = turn_index == 0 ? 1 : 0
+  else
+    puts ""
+    puts "That column is full"
+  end
+end
+
+if !board.empty_spaces?  && !board.winner?
+  puts ""
+  puts "It's a tie!"
 end

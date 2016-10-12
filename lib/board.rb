@@ -26,15 +26,24 @@ class Board
     end
   end
 
-  def drop_token(letter, player)
+  def drop_token?(letter, dropping_player)
     index = LETTERS[letter]
     n = 5
-    # binding.pry
-    while @rows[n][index].occupied? && n != 0
+    while @rows[n][index].occupied?
+      n -= 1
+      if n < 0
+        return false
+      end
+    end
+    while @rows[n][index].occupied?
       n -= 1
     end
-    @row_index = n
-    @rows[@row_index][index].player = @rows[n][index].player_token(player)
+    if n >= 0
+      @row_index = n
+      @rows[@row_index][index].player = dropping_player
+      return true
+    end
+
   end
 
   def wrong_letter?(letter)
@@ -49,15 +58,79 @@ class Board
     end
     return false
   end
-#
-#   def winner?
-#     if @last_turn
-#       @last_turn.winner?
-#     else
-#       false
-#     end
-#   end
-#
+
+  def winner?
+    horizontal_win? || vertical_win? || diagonal_up_right_win?
+  end
+
+  def horizontal_win?
+    r = 0
+    while r < 6
+      c = 0
+      tally = 0
+      while c < 6
+        if @rows[r][c].player == @rows[r][c + 1].player && @rows[r][c].player != nil
+          tally += 1
+          if tally == 3
+            return true
+          end
+        else
+          tally = 0
+        end
+        c += 1
+      end
+      r += 1
+    end
+    return false
+  end
+
+  def vertical_win?
+    c = 0
+    while c < 7
+      r = 0
+      tally = 0
+      while r < 5
+        if @rows[r][c].player == @rows[r + 1][c].player && @rows[r][c].player != nil
+          tally += 1
+          if tally == 3
+            return true
+          end
+        else
+          tally = 0
+        end
+        r += 1
+      end
+      c += 1
+    end
+    return false
+  end
+
+  def diagonal_up_right_win?
+    r = 5
+    while r > 0
+      c = 0
+      tally = 0
+      while c < 6
+        if @rows[r][c].player == @rows[r - 1][c + 1].player && @rows[r][c].player != nil && @rows[r - 1][c + 1] != nil
+          tally += 1
+          if tally == 3
+            return true
+          end
+        else
+          tally = 0
+        end
+        c += 1
+      end
+      r -= 1
+    end
+    puts "r #{r} c #{c} tally #{tally}"
+    return false
+  end
+
+  def diagonal_down_right_win?
+
+  end
+
   def print
     board_print = ""
     @rows.each_with_index do |row, index|
